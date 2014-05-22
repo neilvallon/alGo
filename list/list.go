@@ -2,6 +2,20 @@ package list
 
 import "fmt"
 
+type Stack interface {
+	Push(int)
+	Pop() (int, error)
+	IsEmpty() bool
+	Size() int
+}
+
+type Queue interface {
+	Push(int)
+	Shift() (int, error)
+	IsEmpty() bool
+	Size() int
+}
+
 type List struct {
 	first *Node
 	last  *Node
@@ -36,6 +50,10 @@ func (n *Node) Stringl() string {
 
 func (l *List) IsEmpty() bool {
 	return l.size == 0
+}
+
+func (l *List) Size() int {
+	return l.size
 }
 
 func (l *List) Push(i int) {
