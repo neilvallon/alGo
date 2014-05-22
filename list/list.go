@@ -10,6 +10,7 @@ type List struct {
 
 type Node struct {
 	next *Node
+	prev *Node
 	val  int
 }
 
@@ -44,6 +45,7 @@ func (l *List) Push(i int) {
 		l.first = n
 		l.last = n
 	} else {
+		n.prev = l.last
 		l.last.next = n
 		l.last = n
 	}
@@ -57,8 +59,12 @@ func (l *List) Shift() (i int, err error) {
 		return
 	}
 
-	i, l.first = l.first.val, l.first.next
-	l.size--
+	i = l.first.val
+	l.first = l.first.next
+	if l.first != nil {
+		l.first.prev = nil
+	}
 
+	l.size--
 	return
 }
