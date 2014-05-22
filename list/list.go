@@ -53,6 +53,22 @@ func (l *List) Push(i int) {
 	l.size++
 }
 
+func (l *List) Pop() (i int, err error) {
+	if l.IsEmpty() {
+		err = fmt.Errorf("Pop from empty list")
+		return
+	}
+
+	i = l.last.val
+	l.last = l.last.prev
+	if l.last != nil {
+		l.last.next = nil
+	}
+
+	l.size--
+	return
+}
+
 func (l *List) Shift() (i int, err error) {
 	if l.IsEmpty() {
 		err = fmt.Errorf("Shift from empty list")
@@ -67,4 +83,19 @@ func (l *List) Shift() (i int, err error) {
 
 	l.size--
 	return
+}
+
+func (l *List) Unshift(i int) {
+	n := &Node{val: i}
+
+	if l.IsEmpty() {
+		l.first = n
+		l.last = n
+	} else {
+		n.next = l.first
+		l.first.prev = n
+		l.first = n
+	}
+
+	l.size++
 }
