@@ -50,3 +50,15 @@ func (l *List) Push(i int) {
 
 	l.size++
 }
+
+func (l *List) Shift() (i int, err error) {
+	if l.IsEmpty() {
+		err = fmt.Errorf("Shift from empty list")
+		return
+	}
+
+	i, l.first = l.first.val, l.first.next
+	l.size--
+
+	return
+}
