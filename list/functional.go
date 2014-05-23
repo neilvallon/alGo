@@ -16,7 +16,7 @@ func (l *List) Tail() (rl *List, err error) {
 	case 0:
 		err = fmt.Errorf("Cannot take tail of empty list")
 	case 1:
-		// Return nil list. No error
+		rl = new(List)
 	default:
 		first, last, size := l.first.next.clone()
 		rl = &List{first, last, size}
