@@ -32,7 +32,7 @@ func (l *List) String() string {
 	if l.IsEmpty() {
 		return "List()"
 	} else {
-		return fmt.Sprintf("List(%s)", l.first.Stringl())
+		return fmt.Sprintf("List(%s)", l.first.Stringrec())
 	}
 }
 
@@ -40,11 +40,13 @@ func (n *Node) String() string {
 	return fmt.Sprintf("%d", n.val)
 }
 
-func (n *Node) Stringl() string {
+// Stringrec returns the values of all nodes connected to the current.
+// "n", "n1", "n2", "n3", ...
+func (n *Node) Stringrec() string {
 	if n.next == nil {
 		return fmt.Sprintf("%q", n)
 	} else {
-		return fmt.Sprintf("%q, %s", n, n.next.Stringl())
+		return fmt.Sprintf("%q, %s", n, n.next.Stringrec())
 	}
 }
 
@@ -56,6 +58,7 @@ func (l *List) Size() int {
 	return l.size
 }
 
+// Push adds an element to the end of the list.
 func (l *List) Push(i int) {
 	n := &Node{val: i}
 
@@ -71,6 +74,7 @@ func (l *List) Push(i int) {
 	l.size++
 }
 
+// Pop removes and returns the last element of the list.
 func (l *List) Pop() (i int, err error) {
 	if l.IsEmpty() {
 		err = fmt.Errorf("Pop from empty list")
@@ -87,6 +91,7 @@ func (l *List) Pop() (i int, err error) {
 	return
 }
 
+// Shift removes and returns the first element of the list.
 func (l *List) Shift() (i int, err error) {
 	if l.IsEmpty() {
 		err = fmt.Errorf("Shift from empty list")
@@ -103,6 +108,7 @@ func (l *List) Shift() (i int, err error) {
 	return
 }
 
+// Unshift adds an element to the front of the list.
 func (l *List) Unshift(i int) {
 	n := &Node{val: i}
 
