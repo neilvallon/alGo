@@ -76,6 +76,7 @@ func (l *List) Filter(f func(int) bool) (rl *List) {
 			rl.size++
 		}
 	}
+	fake.next.prev = nil
 
 	rl.first, rl.last = fake.next, prev
 	return
