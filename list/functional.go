@@ -41,3 +41,21 @@ func (n *Node) clone() (first *Node, last *Node, size int) {
 	size++
 	return
 }
+
+// Map returns a new list with function f applied to each element.
+func (l *List) Map(f func(int) int) (rl *List) {
+	rl = new(List)
+	if l.first == nil {
+		return
+	}
+
+	prev := &Node{val: f(l.first.val)}
+	rl.first = prev
+	for next := l.first.next; next != nil; next = next.next {
+		prev.next = &Node{val: f(next.val), prev: prev}
+		prev = prev.next
+	}
+
+	rl.last, rl.size = prev, l.size
+	return
+}
