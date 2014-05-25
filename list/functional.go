@@ -59,3 +59,24 @@ func (l *List) Map(f func(int) int) (rl *List) {
 	rl.last, rl.size = prev, l.size
 	return
 }
+
+// Filter returns a new list containing only elements where function f is true.
+func (l *List) Filter(f func(int) bool) (rl *List) {
+	rl = new(List)
+	if l.first == nil {
+		return
+	}
+
+	fake := new(Node)
+	prev := fake
+	for next := l.first; next != nil; next = next.next {
+		if n := next.val; f(n) {
+			prev.next = &Node{val: n, prev: prev}
+			prev = prev.next
+			rl.size++
+		}
+	}
+
+	rl.first, rl.last = fake.next, prev
+	return
+}
