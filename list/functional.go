@@ -60,6 +60,29 @@ func (l *List) Map(f func(int) int) (rl *List) {
 	return
 }
 
+// FlatMap returns a new list consisting of the concatenation of all lists
+// returned by function f.
+func (l *List) FlatMap(f func(int) []int) (rl *List) {
+	rl = new(List)
+	if l.first == nil {
+		return
+	}
+
+	fake := new(Node)
+	prev := fake
+	for next := l.first; next != nil; next = next.next {
+		for _, v := range f(next.val) {
+			prev.next = &Node{val: v, prev: prev}
+			prev = prev.next
+			rl.size++
+		}
+	}
+	fake.next.prev = nil
+
+	rl.first, rl.last = fake.next, prev
+	return
+}
+
 // Filter returns a new list containing only elements where function f is true.
 func (l *List) Filter(f func(int) bool) (rl *List) {
 	rl = new(List)
