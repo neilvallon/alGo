@@ -104,3 +104,33 @@ func (l *List) Filter(f func(int) bool) (rl *List) {
 	rl.first, rl.last = fake.next, prev
 	return
 }
+
+// Exists checks if function f holds for at least one element.
+func (l *List) Exists(f func(int) bool) bool {
+	if l.IsEmpty() {
+		return false
+	}
+
+	for next := l.first; next != nil; next = next.next {
+		if f(next.val) {
+			return true
+		}
+	}
+
+	return false
+}
+
+// ForAll checks if function f holds for all elements.
+func (l *List) ForAll(f func(int) bool) bool {
+	if l.IsEmpty() {
+		return false
+	}
+
+	for next := l.first; next != nil; next = next.next {
+		if !f(next.val) {
+			return false
+		}
+	}
+
+	return true
+}
