@@ -21,6 +21,7 @@ func (g *Graph) Connect(n1, n2 *Node) {
 	n1.Edges = append(n1.Edges, n2)
 }
 
+// Creates a new graph structure from an adjacency list.
 func New(ajlst map[int][]int) *Graph {
 	g := &Graph{
 		Nodes: make([]*Node, len(ajlst)),
