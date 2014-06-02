@@ -5,6 +5,9 @@ func QuickSelect(lst []int, ith int) int {
 		panic("Selection element out of range.")
 	}
 
+	rp := rnd.Intn(len(lst))
+	lst[0], lst[rp] = lst[rp], lst[0]
+
 	p := lst[0]
 	j := 1
 	for i := 1; i < len(lst); i++ {
