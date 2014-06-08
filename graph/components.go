@@ -35,11 +35,7 @@ func (g *Graph) Components() (components [][]*Node) {
 
 	// Transpose Graph
 	g.order, g.Nodes = g.Nodes, g.order
-	g.findInbound()
-	for _, node := range g.Nodes {
-		node.explored = false // reset state
-		node.Edges, node.inbound = node.inbound, node.Edges
-	}
+	g.Transpose()
 	//
 
 	for i := len(g.Nodes) - 1; 0 <= i; i-- {
@@ -52,10 +48,9 @@ func (g *Graph) Components() (components [][]*Node) {
 	return
 }
 
-func (g *Graph) findInbound() {
+func (g *Graph) Transpose() {
 	for _, node := range g.Nodes {
-		for _, n2 := range node.Edges {
-			n2.inbound = append(n2.inbound, node)
-		}
+		node.explored = false // reset state
+		node.Edges, node.inbound = node.inbound, node.Edges
 	}
 }

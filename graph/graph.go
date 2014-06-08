@@ -74,6 +74,7 @@ func NewDirected(ajlst map[int][]int) *Graph {
 				nodes[n2v-1] = n2
 			}
 			n1.Edges = append(n1.Edges, n2)
+			n2.inbound = append(n2.inbound, n1)
 		}
 	}
 
