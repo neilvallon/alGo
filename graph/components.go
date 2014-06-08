@@ -1,19 +1,14 @@
 package graph
 
-var ftime = 0
-
-func (g *Graph) dfs(n *Node) {
+func (g *Graph) dfs(n *Node, fin *[]*Node) {
 	n.explored = true
 	for _, n2 := range n.Edges {
 		if !n2.explored {
-			g.dfs(n2)
+			g.dfs(n2, fin)
 		}
 	}
 
-	n.finishing = ftime
-	g.order[ftime] = n
-
-	ftime++
+	*fin = append(*fin, n)
 }
 
 func (g *Graph) scc(n *Node) (SCC []*Node) {
@@ -27,19 +22,16 @@ func (g *Graph) scc(n *Node) (SCC []*Node) {
 }
 
 func (g *Graph) Components() (components [][]*Node) {
+	finOrd := make([]*Node, 0, len(g.Nodes))
 	for _, node := range g.Nodes {
 		if !node.explored {
-			g.dfs(node)
+			g.dfs(node, &finOrd)
 		}
 	}
 
-	// Transpose Graph
-	g.order, g.Nodes = g.Nodes, g.order
 	g.Transpose()
-	//
-
-	for i := len(g.Nodes) - 1; 0 <= i; i-- {
-		node := g.Nodes[i]
+	for i := len(finOrd) - 1; 0 <= i; i-- {
+		node := finOrd[i]
 		if !node.explored {
 			components = append(components, g.scc(node))
 		}

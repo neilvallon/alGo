@@ -13,10 +13,8 @@ type Node struct {
 	val   int
 	Edges []*Node
 
-	inbound []*Node
-
-	explored  bool
-	finishing int
+	inbound  []*Node
+	explored bool
 }
 
 func (n *Node) String() string {
