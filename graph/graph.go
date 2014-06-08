@@ -6,11 +6,17 @@ import (
 
 type Graph struct {
 	Nodes []*Node
+	order []*Node
 }
 
 type Node struct {
 	val   int
 	Edges []*Node
+
+	inbound []*Node
+
+	explored  bool
+	finishing int
 }
 
 func (n *Node) String() string {
@@ -40,4 +46,39 @@ func New(ajlst map[int][]int) *Graph {
 	}
 
 	return g
+}
+
+func NewDirected(ajlst map[int][]int) *Graph {
+	nodes := make([]*Node, len(ajlst))
+
+	for n1v, e := range ajlst {
+		if n1v > len(nodes) {
+			newnodes := make([]*Node, n1v)
+			copy(newnodes, nodes)
+			nodes = newnodes
+		}
+		n1 := nodes[n1v-1]
+		if n1 == nil {
+			n1 = &Node{val: n1v}
+			nodes[n1v-1] = n1
+		}
+		for _, n2v := range e {
+			if n2v > len(nodes) {
+				newnodes := make([]*Node, n2v)
+				copy(newnodes, nodes)
+				nodes = newnodes
+			}
+			n2 := nodes[n2v-1]
+			if n2 == nil {
+				n2 = &Node{val: n2v}
+				nodes[n2v-1] = n2
+			}
+			n1.Edges = append(n1.Edges, n2)
+		}
+	}
+
+	return &Graph{
+		Nodes: nodes,
+		order: make([]*Node, len(nodes)),
+	}
 }
