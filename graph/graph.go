@@ -13,6 +13,9 @@ type Node struct {
 	val   int
 	Edges []*Node
 
+	EdgeCosts map[*Node]int
+	minCost   int
+
 	inbound  []*Node
 	explored bool
 }
